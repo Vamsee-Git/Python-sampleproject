@@ -1,0 +1,42 @@
+name: Setup for Python and Pip
+
+on:
+  push:
+    branches:
+      - main  
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  echo_python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest  # Install pytest for testing
+          pip install git+https://github.com/Aki19-2000/Python-sampleproject.git  # Install from GitHub repo
+          pip install some-other-package  # Add other dependencies as needed
+
+      - name: Run tests
+        run: |
+          pytest  # Run tests using pytest
+
+      - name: Create staging directory and copy artifacts
+        run: |
+          mkdir -p staging
+          # If your package produces any files, adjust this accordingly:
+          cp dist/* staging/  # You need to ensure 'dist/' exists, or adjust the path
+
+      - name: Upload package artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Package
+          path: staging
