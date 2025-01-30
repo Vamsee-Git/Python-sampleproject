@@ -3,7 +3,7 @@ name: Setup for Python and Pip
 on:
   push:
     branches:
-      - main  
+      - main
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'  
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
@@ -28,10 +28,10 @@ jobs:
         run: |
           pytest  # Run tests using pytest
 
-      - name: Create staging directory and copy artifacts
+      - name: Create staging directory and copy Python files (if no dist)
         run: |
           mkdir -p staging
-          cp dist/* staging/  # Adjust if you're building artifacts in a different directory
+          cp *.py staging/  # Copy Python files instead of package artifacts
 
       - name: Upload package artifacts
         uses: actions/upload-artifact@v4
