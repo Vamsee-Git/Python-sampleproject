@@ -1,4 +1,4 @@
-name: Setup for Python and Pip
+name: Setup for Python and Pip.
 
 on:
   push:
